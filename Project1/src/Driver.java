@@ -21,6 +21,9 @@ public class Driver {
                            87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 
                            99, 100};
     
+    public static int[] smallListOne = {2,3,5,7,9,1,4,6,8,10};
+    public static int[] smallSortedListOne = {1,2,3,4,5,6,7,8,9,10};
+    
     public static void main(String[] args) {
       Sorts algSorts = new Sorts();
       int[] temp = listOne;
@@ -30,6 +33,8 @@ public class Driver {
       System.out.println("List one got sorted: " + Arrays.equals(temp,sortedListOne));
     
       temp = listOne;
+      
+      System.out.println(Arrays.toString(temp));
       algSorts.mergeSort(temp,100);
       System.out.println(Arrays.toString(temp));
       System.out.println("List one got sorted: " + Arrays.equals(temp, sortedListOne));
