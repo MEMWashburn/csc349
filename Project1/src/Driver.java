@@ -38,5 +38,10 @@ public class Driver {
       algSorts.mergeSort(temp,100);
       System.out.println(Arrays.toString(temp));
       System.out.println("List one got sorted: " + Arrays.equals(temp, sortedListOne));
+
+      temp = listOne;
+      algSorts.quickSort(temp,100);
+      System.out.println(Arrays.toString(temp));
+      System.out.println("List one got sorted: " + Arrays.equals(temp, sortedListOne));
     }
 }
