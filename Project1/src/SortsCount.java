@@ -9,7 +9,7 @@ public class SortsCount {
         int[] copy2 = new int[12800];
         int[] copy3 = new int[12800];
 
-        long selectCount = 0, mergeCount = 0, quickCount = 0;
+        long selectCount, mergeCount, quickCount;
 
         Sorts1 algSorts = new Sorts1();
         Random rand = new Random();
@@ -32,7 +32,7 @@ public class SortsCount {
             long mc = mergeCount / (long)100;
             long qc = quickCount / (long)100;
 
-            System.out.println("N=" + n + ":\t C_ss=" + sc + ",\t C_ms=" + mc + ",\t C_qs=" + qc);
+            System.out.println("N=" + n + ": C_ss=" + sc + ", C_ms=" + mc + ", C_qs=" + qc);
         }
         System.out.println();
         System.out.println("End of output");

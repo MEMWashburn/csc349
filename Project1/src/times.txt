@@ -1,39 +1,39 @@
 Running Times of three sorting algorithms:
 
-N=5000:	 T_ss=12,	 T_ms=1,	 T_qs=0
-N=5000:	 T_ss=9,	 T_ms=0,	 T_qs=0
-N=5000:	 T_ss=9,	 T_ms=0,	 T_qs=0
-N=5000:	 T_ss=9,	 T_ms=0,	 T_qs=0
-N=5000:	 T_ss=9,	 T_ms=0,	 T_qs=0
+N=5000: T_ss=27,  T_ms=2, T_qs=3
+N=5000: T_ss=23,  T_ms=1, T_qs=0
+N=5000: T_ss=12,  T_ms=1, T_qs=0
+N=5000: T_ss=11,  T_ms=1, T_qs=0
+N=5000: T_ss=12,  T_ms=1, T_qs=0
 
-N=10000:	 T_ss=39,	 T_ms=0,	 T_qs=0
-N=10000:	 T_ss=39,	 T_ms=0,	 T_qs=0
-N=10000:	 T_ss=39,	 T_ms=0,	 T_qs=0
-N=10000:	 T_ss=39,	 T_ms=0,	 T_qs=0
-N=10000:	 T_ss=39,	 T_ms=0,	 T_qs=0
+N=10000: T_ss=47,  T_ms=3, T_qs=1
+N=10000: T_ss=48,  T_ms=2, T_qs=1
+N=10000: T_ss=48,  T_ms=3, T_qs=1
+N=10000: T_ss=46,  T_ms=3, T_qs=1
+N=10000: T_ss=47,  T_ms=2, T_qs=1
 
-N=20000:	 T_ss=157,	 T_ms=1,	 T_qs=0
-N=20000:	 T_ss=156,	 T_ms=1,	 T_qs=0
-N=20000:	 T_ss=156,	 T_ms=1,	 T_qs=0
-N=20000:	 T_ss=156,	 T_ms=1,	 T_qs=0
-N=20000:	 T_ss=157,	 T_ms=1,	 T_qs=0
+N=20000: T_ss=183,  T_ms=7, T_qs=2
+N=20000: T_ss=139,  T_ms=3, T_qs=1
+N=20000: T_ss=179,  T_ms=7, T_qs=3
+N=20000: T_ss=181,  T_ms=7, T_qs=3
+N=20000: T_ss=184,  T_ms=7, T_qs=3
 
-N=40000:	 T_ss=635,	 T_ms=4,	 T_qs=0
-N=40000:	 T_ss=630,	 T_ms=4,	 T_qs=0
-N=40000:	 T_ss=628,	 T_ms=4,	 T_qs=0
-N=40000:	 T_ss=627,	 T_ms=5,	 T_qs=0
-N=40000:	 T_ss=629,	 T_ms=1,	 T_qs=0
+N=40000: T_ss=716,  T_ms=14, T_qs=6
+N=40000: T_ss=710,  T_ms=16, T_qs=6
+N=40000: T_ss=708,  T_ms=14, T_qs=7
+N=40000: T_ss=659,  T_ms=15, T_qs=6
+N=40000: T_ss=715,  T_ms=8, T_qs=5
 
-N=80000:	 T_ss=2528,	 T_ms=2,	 T_qs=0
-N=80000:	 T_ss=2523,	 T_ms=2,	 T_qs=0
-N=80000:	 T_ss=2525,	 T_ms=3,	 T_qs=0
-N=80000:	 T_ss=2520,	 T_ms=8,	 T_qs=0
-N=80000:	 T_ss=2521,	 T_ms=8,	 T_qs=0
+N=80000: T_ss=2607,  T_ms=17, T_qs=11
+N=80000: T_ss=2459,  T_ms=17, T_qs=13
+N=80000: T_ss=2633,  T_ms=10, T_qs=8
+N=80000: T_ss=2723,  T_ms=30, T_qs=11
+N=80000: T_ss=2684,  T_ms=30, T_qs=11
 
-N=160000:	 T_ss=10153,	 T_ms=17,	 T_qs=2
-N=160000:	 T_ss=10106,	 T_ms=17,	 T_qs=1
-N=160000:	 T_ss=10103,	 T_ms=17,	 T_qs=1
-N=160000:	 T_ss=10099,	 T_ms=17,	 T_qs=1
-N=160000:	 T_ss=10128,	 T_ms=18,	 T_qs=1
+N=160000: T_ss=10724,  T_ms=63, T_qs=23
+N=160000: T_ss=10968,  T_ms=59, T_qs=24
+N=160000: T_ss=10655,  T_ms=53, T_qs=17
+N=160000: T_ss=9611,  T_ms=61, T_qs=20
+N=160000: T_ss=9468,  T_ms=67, T_qs=25
 
 End of output
