@@ -137,10 +137,10 @@ public class Sorts1 {
                     indexR--;
                     quickSortCount++;
                 }
-                else
-                    break;
+                else break;
             }
-            if (indexL < indexR) {
+
+            if (indexL <= indexR) {
                 temp = arr[indexL];
                 arr[indexL] = arr[indexR];
                 arr[indexR] = temp;
