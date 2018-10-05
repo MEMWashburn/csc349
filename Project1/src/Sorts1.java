@@ -82,27 +82,22 @@ public class Sorts1 {
     }
 
     public static long quickSort(int[] arr, int N) {
-        long compCount = quickSort(arr,0,N-1);
-        return compCount;
+        quickSort(arr,0,N-1);
+        return quickSortCount;
     }
 
-    private static long quickSort(int[] arr, int first, int last){
-        long compCount = 0;
+    private static void quickSort(int[] arr, int first, int last){
         if (first < last){
-            compCount += setPivotToEnd(arr,first,last);
-            long[] tuple = splitList(arr,first,last);
-            int pivotIndex = (int)tuple[0];
-            compCount += tuple[1];
+            setPivotToEnd(arr,first,last);
+            int pivotIndex = splitList(arr,first,last);
             quickSort(arr,first,pivotIndex-1);
             quickSort(arr,pivotIndex+1,last);
         }
-        return compCount;
     }
 
-    private static long setPivotToEnd(int[] arr, int left, int right){
+    private static void setPivotToEnd(int[] arr, int left, int right){
         int center = (left + right)/2;
         int temp;
-        long compCount = 3; // Three comparisons
 
         if (arr[left] > arr[center]){
             temp = arr[center];
@@ -119,28 +114,29 @@ public class Sorts1 {
             arr[right] = arr[center];
             arr[center] = temp;
         }
-        return compCount;
+        quickSortCount += 3;
     }
 
-    private static long[] splitList(int[] arr,int left, int right){
+    private static int splitList(int[] arr,int left, int right){
         int indexL = left;
         int indexR = right-1;
         int pivot = arr[right];
         int temp;
-        long compCount = 0;
-        long[] tuple = new long[2];
 
         while (indexL < indexR) {
             while( arr[indexL] < pivot) {
                 indexL++;
-                compCount++;
+                quickSortCount++;
             }
-            compCount++;
-            while( indexR > indexL && arr[indexR] > pivot) {
-                indexR--;
-                compCount++;
+            quickSortCount++;
+            while(indexR > indexL) {
+                if (arr[indexR] > pivot) {
+                    indexR--;
+                    quickSortCount++;
+                }
+                else
+                    break;
             }
-            compCount++;
             if (indexL < indexR) {
                 temp = arr[indexL];
                 arr[indexL] = arr[indexR];
@@ -152,8 +148,6 @@ public class Sorts1 {
         temp = arr[indexL];
         arr[indexL] = arr[right];
         arr[right] = temp;
-        tuple[0] = (long)indexL;
-        tuple[1] = compCount;
-        return tuple;
+        return indexL;
     }
 }
