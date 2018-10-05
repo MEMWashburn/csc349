@@ -1,6 +1,9 @@
 /* CSC 349-03
  * Angel de la Torre & Megan Washburn
+ * ardelato@calpoly.edu
+ * mwashbur@calpoly.edu
  *
+ * 10/5/2018
  * Project 1
  */
 

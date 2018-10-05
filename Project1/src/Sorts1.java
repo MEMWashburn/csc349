@@ -1,6 +1,9 @@
 /* CSC 349-03
  * Angel de la Torre & Megan Washburn
+ * ardelato@calpoly.edu
+ * mwashbur@calpoly.edu
  *
+ * 10/5/2018
  * Project 1
  */
 
@@ -119,12 +122,12 @@ public class Sorts1 {
 
     private static int splitList(int[] arr,int left, int right){
         int indexL = left;
-        int indexR = right-1;
+        int indexR = right - 1;
         int pivot = arr[right];
         int temp;
 
         while (indexL < indexR) {
-            while( arr[indexL] < pivot) {
+            while(arr[indexL] < pivot) {
                 indexL++;
                 quickSortCount++;
             }
