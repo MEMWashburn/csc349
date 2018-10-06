@@ -1,0 +1,21 @@
+/* CSC 349-03
+ * Angel de la Torre & Megan Washburn
+ * ardelato@calpoly.edu
+ * mwashbur@calpoly.edu
+ *
+ * 10/5/2018
+ * Project 1
+ */
+
+Average number of element-comparisons in three sorting algorithms:
+
+N=100: C_ss=4950, C_ms=542, C_qs=731
+N=200: C_ss=19900, C_ms=1281, C_qs=1711
+N=400: C_ss=79800, C_ms=2959, C_qs=3906
+N=800: C_ss=319600, C_ms=6720, C_qs=8728
+N=1600: C_ss=1279200, C_ms=15043, C_qs=19431
+N=3200: C_ss=5118400, C_ms=33273, C_qs=42964
+N=6400: C_ss=20476800, C_ms=72955, C_qs=93511
+N=12800: C_ss=81913600, C_ms=158699, C_qs=203215
+
+End of output

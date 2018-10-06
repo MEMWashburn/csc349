@@ -85,6 +85,7 @@ public class Sorts1 {
     }
 
     public static long quickSort(int[] arr, int N) {
+        quickSortCount = 0;
         quickSort(arr,0,N-1);
         return quickSortCount;
     }
@@ -99,7 +100,7 @@ public class Sorts1 {
     }
 
     private static void setPivotToEnd(int[] arr, int left, int right){
-        int center = (left + right)/2;
+        int center = (left + right) / 2;
         int temp;
 
         if (arr[left] > arr[center]){
@@ -139,6 +140,7 @@ public class Sorts1 {
                 }
                 else break;
             }
+            quickSortCount++;
 
             if (indexL <= indexR) {
                 temp = arr[indexL];
