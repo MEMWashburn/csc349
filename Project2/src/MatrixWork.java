@@ -47,12 +47,16 @@ public class MatrixWork {
         }
 
         // Check:
+        System.out.println("Printing Elements in the List");
         for (Integer elements : list) {
             System.out.println(elements);
         }
+        System.out.println();
 
         int ar = list.get(0);
-        int ac = list.get(0);
+
+        // Changed to from index 0 -> index 1
+        int ac = list.get(1);
         int lindex = 2;
         A = new int[ar][ac];
         for (int i = 0; i < ar; i++) {
@@ -61,8 +65,31 @@ public class MatrixWork {
                 lindex++;
             }
         }
+        // Printing out the matrix with a helper method
+        System.out.println("Printing Matrix A");
+        matrixPrint(A,ar,ac);
+        System.out.println();
 
-        int br = list.get(ar+1);
+
+        // Assuming br is ar for Matrix B?
+        // If so changed the index to lindex since
+        // ar+1 is actually an element for Matrix A
+        // according to the order of the list and value of ar
+        int br = list.get(lindex);
+        lindex++;
+        int bc = list.get(lindex);
+        lindex++;
+
+        B = new int[br][bc];
+        for (int i = 0; i < br; i++) {
+            for (int j = 0; j < bc; j++) {
+                B[i][j] = list.get(lindex);
+                lindex++;
+            }
+        }
+        System.out.println("Printing Matrix B");
+        matrixPrint(B,br,bc);
+         
     }
 
     private static int[][] matrixProduct(int[][]A, int[][]B)
@@ -73,5 +100,16 @@ public class MatrixWork {
             throw new IllegalArgumentException("A col != B row");
         }
         return C;
+    }
+    
+    // Made a helper method to help with printing and validating that the
+    // matricies were made properly
+    private static void matrixPrint(int[][]matrix,int rows, int columns){
+      for(int i = 0; i < rows; i++){
+         for(int j = 0; j < columns;j++){
+            System.out.print(matrix[i][j] + " ");
+         }
+         System.out.println();
+      }
     }
 }
