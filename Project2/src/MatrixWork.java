@@ -14,7 +14,7 @@ public class MatrixWork {
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
 
-        System.out.println("Enter the input file name: ");
+        System.out.print("Enter the input file name: ");
         String fileNameA = reader.nextLine();
         reader.close();
 
@@ -47,11 +47,12 @@ public class MatrixWork {
         }
 
         // Check:
-        System.out.println("Printing Elements in the List");
+        /*System.out.println("Printing Elements in the List");
         for (Integer elements : list) {
             System.out.println(elements);
         }
         System.out.println();
+        */
 
         int ar = list.get(0);
 
@@ -66,9 +67,9 @@ public class MatrixWork {
             }
         }
         // Printing out the matrix with a helper method
-        System.out.println("Printing Matrix A");
-        matrixPrint(A,ar,ac);
-        System.out.println();
+        //System.out.println("Printing Matrix A");
+        //matrixPrint(A,ar,ac);
+        //System.out.println();
 
 
         // Assuming br is ar for Matrix B?
@@ -87,17 +88,43 @@ public class MatrixWork {
                 lindex++;
             }
         }
-        System.out.println("Printing Matrix B");
-        matrixPrint(B,br,bc);
-         
-    }
+        //System.out.println("Printing Matrix B");
+        //matrixPrint(B,br,bc);
+        //System.out.println();
+        
+        // Made try and catch for the matrix product
+        int[][] C = new int[0][0];
+        
+        try{
 
+           C = matrixProduct(A,B);
+           System.out.println("Product matrix:");
+           matrixPrint(C,C.length,C[0].length);
+
+        } catch (IllegalArgumentException e){
+           System.out.println(e.getMessage());
+        } 
+    }
+    
+    // Is this the proper synatx for throwing errors? putting the error after
+    // the method arguments? 
     private static int[][] matrixProduct(int[][]A, int[][]B)
             throws IllegalArgumentException {
-        int[][] C = new int[0][0];
+        //Changed C's initialized size from 0 to A's rows and B's cols
+        int[][] C = new int[A.length][B[0].length];
 
-        if (A.length != B[0].length) {
+        // Changed to compare A's cols to B's rows
+        if (B.length != A[0].length) {
             throw new IllegalArgumentException("A col != B row");
+        }
+        
+        // Added the loops for the matric arithmetic
+        for(int i = 0; i < A.length; i++){
+           for(int j = 0; j < B[0].length; j++){
+              for(int k = 0;k < B.length; k++){
+                 C[i][j] += A[i][k] * B[k][j];
+              }
+           }
         }
         return C;
     }
