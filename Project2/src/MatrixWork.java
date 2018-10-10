@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MatrixWork {
+    public static int[][] A;
+    public static int[][] B;
+
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
 
-        System.out.println("Enter the input file name, A: ");
+        System.out.println("Enter the input file name: ");
         String fileNameA = reader.nextLine();
         reader.close();
 
@@ -43,10 +46,23 @@ public class MatrixWork {
             }
         }
 
-//        // Check:
-//        for (Integer elements : list) {
-//            System.out.println(elements);
-//        }
+        // Check:
+        for (Integer elements : list) {
+            System.out.println(elements);
+        }
+
+        int ar = list.get(0);
+        int ac = list.get(0);
+        int lindex = 2;
+        A = new int[ar][ac];
+        for (int i = 0; i < ar; i++) {
+            for (int j = 0; j < ac; j++) {
+                A[i][j] = list.get(lindex);
+                lindex++;
+            }
+        }
+
+        int br = list.get(ar+1);
     }
 
     private static int[][] matrixProduct(int[][]A, int[][]B)
