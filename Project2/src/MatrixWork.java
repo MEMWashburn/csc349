@@ -24,7 +24,10 @@ public class MatrixWork {
             String text = null;
 
             while ((text = bf.readLine()) != null) {
-                list.add(Integer.parseInt(text));
+                String[] split = text.split("\\s+");
+                for (int i = 0; i < split.length; i++) {
+                    list.add(Integer.parseInt(split[i]));
+                }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -39,6 +42,11 @@ public class MatrixWork {
                 e.printStackTrace();
             }
         }
+
+//        // Check:
+//        for (Integer elements : list) {
+//            System.out.println(elements);
+//        }
     }
 
     private static int[][] matrixProduct(int[][]A, int[][]B)
