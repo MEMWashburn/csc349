@@ -98,7 +98,7 @@ public class MatrixWork {
         try{
 
            C = matrixProduct(A,B);
-           System.out.println("Product matrix:");
+           System.out.println("\nProduct matrix:");
            matrixPrint(C,C.length,C[0].length);
 
         } catch (IllegalArgumentException e){
@@ -115,7 +115,7 @@ public class MatrixWork {
 
         // Changed to compare A's cols to B's rows
         if (B.length != A[0].length) {
-            throw new IllegalArgumentException("A col != B row");
+            throw new IllegalArgumentException("\nA col != B row");
         }
         
         // Added the loops for the matric arithmetic
