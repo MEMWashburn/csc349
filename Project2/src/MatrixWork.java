@@ -96,7 +96,6 @@ public class MatrixWork {
         int[][] C = new int[0][0];
         
         try{
-
            C = matrixProduct(A,B);
            System.out.println("\nProduct matrix:");
            matrixPrint(C,C.length,C[0].length);
