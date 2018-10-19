@@ -12,6 +12,7 @@ public class MatrixProduct {
     public static int[][] A;
     public static int[][] B;
 
+    // We can't have a main method for this part
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
 
@@ -79,7 +80,6 @@ public class MatrixProduct {
         matrixPrint(B,br,bc);
         System.out.println();
 
-        // Made try and catch for the matrix product
         int[][] DAC_C;
         int[][] Strassen_C;
 
@@ -87,10 +87,15 @@ public class MatrixProduct {
         double dacTime, strassenTime;
 
         startTime = System.nanoTime();
-
-        DAC_C = matrixProduct_DAC(A,B);
-        System.out.println("\nDAC Product matrix:");
-        matrixPrint(DAC_C, DAC_C.length, DAC_C[0].length);
+        
+        // Added try and catch
+        try {
+           DAC_C = matrixProduct_DAC(A,B);
+           System.out.println("\nDAC Product matrix:");
+           matrixPrint(DAC_C, DAC_C.length, DAC_C[0].length);
+        } catch (IllegalArgumentException e){
+           System.out.println(e.getMessage());
+        }
 
         endTime = System.nanoTime();
 
@@ -99,10 +104,16 @@ public class MatrixProduct {
 
 
         startTime = System.nanoTime();
-
-        Strassen_C = matrixProduct_Strassen(A,B);
-        System.out.println("\nDAC Product matrix:");
-        matrixPrint(Strassen_C, Strassen_C.length, Strassen_C[0].length);
+        
+        // Added try and catch
+        try {
+           Strassen_C = matrixProduct_Strassen(A,B);
+           //Changed printout message DAC->Strassen
+           System.out.println("\nStrassen Product matrix:");
+           matrixPrint(Strassen_C, Strassen_C.length, Strassen_C[0].length);
+        } catch (IllegalArgumentException e){
+           System.out.println(e.getMessage());
+        }
 
         endTime = System.nanoTime();
 
@@ -121,8 +132,10 @@ public class MatrixProduct {
         boolean bPow = checkPowTwo(B.length);
         int aLen = A.length;
         int bLen = B.length;
-
-        if ((aLen != A[0].length && bLen != B[0].length) && (!aPow && !bPow)) {
+         
+        // Couldn't find where A dim = B dim test so I added it to the exception
+        if ((aLen != A[0].length && bLen != B[0].length) && (!aPow && !bPow) &&
+            aLen == bLen) {
             throw new IllegalArgumentException("\nNot square or a power of 2.");
         }
 
@@ -146,10 +159,38 @@ public class MatrixProduct {
         int[][] C = new int[n][n];
         // Base case check
         if (n == 1) {
-            C[1][1] = A[startRowA][startColA] * B[startRowA][startColB];
+            //Changed indexes to 0
+            C[0][0] = A[startRowA][startColA] * B[startRowA][startColB];
         }
         else {
+            int newN = n/2;
 
+            //C11
+            // (A11 * B11) + (A12 * B21)
+            addMatricies(C,0,0,
+               matProd_DAC(A, startRowA, startColA, B, startRowB, startColB, newN),
+               matProd_DAC(A, startRowA, startColA+newN, B, startRowB + newN, startColB, newN));
+
+            //C12
+            // (A11 * B12) + (A12 * B22)
+            addMatricies(C,0,newN,
+               matProd_DAC(A, startRowA, startColA, B, startRowB, startColB + newN, newN),
+               matProd_DAC(A, startRowA, startColA+newN, 
+                  B, startRowB + newN, startColB + newN, newN));
+            
+            //C21
+            // (A21 * B11) + (A22 * B21)
+            addMatricies(C,newN,0,
+               matProd_DAC(A, startRowA + newN, startColA, B, startRowB, startColB, newN),
+               matProd_DAC(A, startRowA + newN, startColA+newN, 
+                  B, startRowB + newN, startColB,newN));
+            
+            //C22
+            // (A21 * B12) + (A22 * B22)
+            addMatricies(C,newN,newN,
+               matProd_DAC(A, startRowA + newN, startColA, B, startRowB, startColB + newN, newN),
+               matProd_DAC(A,startRowA + newN, startColA+newN, 
+                  B, startRowB + newN, startColB + newN, newN));
         }
         return C;
     }
@@ -161,10 +202,26 @@ public class MatrixProduct {
         boolean aPow = checkPowTwo(A.length);
         boolean bPow = checkPowTwo(B.length);
 
-        if ( (A.length != A[0].length && B.length != B[0].length) && (!aPow && !bPow)) {
+        if ( (A.length != A[0].length && B.length != B[0].length) && (!aPow && !bPow)
+           && A.length == B.length) {
             throw new IllegalArgumentException("\nNot square or a power of 2.");
         }
         return null;
+    }
+
+
+    /*
+     * Helper method for adding the matricies
+     */
+    // Expected matricies do not have the right values in each slot, need to
+    // correct it
+    private static void addMatricies(int[][] C, int rowC, int colC, int[][]A, int[][]B){
+       int n = A.length;
+       for(int i=0; i < n;i++){
+          for(int j=0; j<n; j++){
+             C[i+rowC][j+colC]= A[i][j] + B[i][j];
+          }
+       }
     }
 
     /*
