@@ -160,38 +160,40 @@ public class MatrixProduct {
         // Base case check
         if (n == 1) {
             //Changed indexes to 0
-            C[0][0] = A[startRowA][startColA] * B[startRowA][startColB];
+            C[0][0] = A[startRowA][startColA] * B[startRowB][startColB];
         }
         else {
             int newN = n/2;
 
             //C11
             // (A11 * B11) + (A12 * B21)
-            addMatricies(C,0,0,
+            int [][] C11 =  ADD(
                matProd_DAC(A, startRowA, startColA, B, startRowB, startColB, newN),
                matProd_DAC(A, startRowA, startColA+newN, B, startRowB + newN, startColB, newN));
-
             //C12
             // (A11 * B12) + (A12 * B22)
-            addMatricies(C,0,newN,
+            int[][] C12 = ADD(
                matProd_DAC(A, startRowA, startColA, B, startRowB, startColB + newN, newN),
                matProd_DAC(A, startRowA, startColA+newN, 
                   B, startRowB + newN, startColB + newN, newN));
             
             //C21
             // (A21 * B11) + (A22 * B21)
-            addMatricies(C,newN,0,
+            int[][] C21 = ADD(
                matProd_DAC(A, startRowA + newN, startColA, B, startRowB, startColB, newN),
                matProd_DAC(A, startRowA + newN, startColA+newN, 
                   B, startRowB + newN, startColB,newN));
             
             //C22
             // (A21 * B12) + (A22 * B22)
-            addMatricies(C,newN,newN,
+            int[][] C22 = ADD(
                matProd_DAC(A, startRowA + newN, startColA, B, startRowB, startColB + newN, newN),
                matProd_DAC(A,startRowA + newN, startColA+newN, 
                   B, startRowB + newN, startColB + newN, newN));
+            
+            Merge(C,C11,C12,C21,C22);
         }
+        
         return C;
     }
 
@@ -215,11 +217,26 @@ public class MatrixProduct {
      */
     // Expected matricies do not have the right values in each slot, need to
     // correct it
-    private static void addMatricies(int[][] C, int rowC, int colC, int[][]A, int[][]B){
+    private static int[][] ADD( int[][]A, int[][]B){
        int n = A.length;
+       int[][] C = new int[n][n];
        for(int i=0; i < n;i++){
           for(int j=0; j<n; j++){
-             C[i+rowC][j+colC]= A[i][j] + B[i][j];
+             C[i][j]= A[i][j] + B[i][j];
+          }
+       }
+       return C;
+    }
+
+    private static void Merge(int[][] C, int[][] C11, int[][]C12, int[][]C21, int[][]C22){
+       int n = C11.length;
+       
+       for(int i = 0; i < n; i++){
+          for(int j = 0; j < n;j++){
+             C[i][j] = C11[i][j];
+             C[i][j+n] = C12[i][j];
+             C[i+n][j] = C21[i][j];
+             C[i+n][j+n] = C22[i][j];
           }
        }
     }
