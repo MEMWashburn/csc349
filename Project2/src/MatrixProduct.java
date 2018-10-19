@@ -167,26 +167,26 @@ public class MatrixProduct {
 
             //C11
             // (A11 * B11) + (A12 * B21)
-            int [][] C11 =  ADD(
+            int [][] C11 =  ADD_DAC(
                matProd_DAC(A, startRowA, startColA, B, startRowB, startColB, newN),
                matProd_DAC(A, startRowA, startColA+newN, B, startRowB + newN, startColB, newN));
             //C12
             // (A11 * B12) + (A12 * B22)
-            int[][] C12 = ADD(
+            int[][] C12 = ADD_DAC(
                matProd_DAC(A, startRowA, startColA, B, startRowB, startColB + newN, newN),
                matProd_DAC(A, startRowA, startColA+newN, 
                   B, startRowB + newN, startColB + newN, newN));
             
             //C21
             // (A21 * B11) + (A22 * B21)
-            int[][] C21 = ADD(
+            int[][] C21 = ADD_DAC(
                matProd_DAC(A, startRowA + newN, startColA, B, startRowB, startColB, newN),
                matProd_DAC(A, startRowA + newN, startColA+newN, 
                   B, startRowB + newN, startColB,newN));
             
             //C22
             // (A21 * B12) + (A22 * B22)
-            int[][] C22 = ADD(
+            int[][] C22 = ADD_DAC(
                matProd_DAC(A, startRowA + newN, startColA, B, startRowB, startColB + newN, newN),
                matProd_DAC(A,startRowA + newN, startColA+newN, 
                   B, startRowB + newN, startColB + newN, newN));
@@ -208,7 +208,64 @@ public class MatrixProduct {
            && A.length == B.length) {
             throw new IllegalArgumentException("\nNot square or a power of 2.");
         }
-        return null;
+        
+        int n = aLen;
+        int[][] C = new int[n][n];
+        
+        int startRowA = 0, startColA = 0, startRowB = 0, startColB = 0;
+        C = matProd_Strassen(A, startRowA, startColA, B, startRowB, startColB, n);
+
+        return C;
+    }
+
+    /*
+     * Returns matrix of brand new size, n x n
+     */
+    private static int[][] matProd_Strassen(int[][] A, int startRowA, int startColA,
+                                       int[][] B, int startRowB, int startColB,
+                                       int n) {
+        int[][] C = new int[n][n];
+        // Base case check
+        if (n == 1) {
+            //Changed indexes to 0
+            C[0][0] = A[startRowA][startColA] * B[startRowB][startColB];
+        }
+        else {
+            int newN = n/2;
+            //To DO:
+            // Create Actual Add and Subtract methods for Strassen Alg (ADD is
+            // for DAC)
+            //
+            // Change the parameters in the methods to the actual matricies and
+            // new coordinates
+            int[][] S1 = Subtract(B11,B22);
+            int[][] S2 = Add(A11,A12);
+            int[][] S3 = Add(A21,A22);
+            int[][] S4 = Subtract(B21,B11);
+            int[][] S5 = Add(A11,A22);
+            int[][] S6 = Add(B11,B22);
+            int[][] S7 = Subtract(A12,A22);
+            int[][] S8 = Add(B21,B22);
+            int[][] S9 = Subtract(A11,A21);
+            int[][] S10 = Add(B11,B12);
+
+            int[][] P1 = matPrd_Strassen(A11,S1);
+            int[][] P2 = matProd_Strassen(S2,B22);
+            int[][] P3 = matProd_Strassen(S3,B11);
+            int[][] P4 = matProd_Strassen(A22,S4);
+            int[][] P5 = matProd_Strassen(S5,S6);
+            int[][] P6 = matProd_Strassen(S7,S8);
+            int[][] P7 = matProd_Strassen(S9,S10);
+            
+            int[][] C11 = P5 + P4 - P2 + P6;
+            int[][] C12 = P1 + P2;
+            int[][] C21 = P3 + P4;
+            int[][] C22 = P5 + P1 - P3 - P7;
+
+            Merge(C,C11,C12,C21,C22);
+        }
+        
+        return C;
     }
 
 
@@ -217,7 +274,7 @@ public class MatrixProduct {
      */
     // Expected matricies do not have the right values in each slot, need to
     // correct it
-    private static int[][] ADD( int[][]A, int[][]B){
+    private static int[][] ADD_DAC( int[][]A, int[][]B){
        int n = A.length;
        int[][] C = new int[n][n];
        for(int i=0; i < n;i++){
@@ -227,7 +284,18 @@ public class MatrixProduct {
        }
        return C;
     }
+    
+    /*
+     * Helper Method for adding matricies in strassen
+     */
+    private static int[][] Add(int[][]A,int[][]B,int startRowA, int startColA,
+      int startRowB, int startColB, int newN){
+      
+      int n = newN;
+      int[][] C = new int[n][n];
+      // need to add matricies within the boundaries defined by the parameters
 
+    }
     private static void Merge(int[][] C, int[][] C11, int[][]C12, int[][]C21, int[][]C22){
        int n = C11.length;
        
