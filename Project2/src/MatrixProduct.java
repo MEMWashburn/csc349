@@ -1,4 +1,5 @@
 /**
+ * CSC 349 Project 2 Part 2
  * Angel de la Torre and Megan Washburn
  */
 
@@ -12,6 +13,7 @@ public class MatrixProduct {
     public static int[][] B;
 
     // We can't have a main method for this part
+    /*
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
 
@@ -121,7 +123,7 @@ public class MatrixProduct {
 
         System.out.println("Time for DAC Matrix Product: " + dacTime);
         System.out.println("Time for Strassen Matrix Product: " + strassenTime);
-    }
+    }*/
 
     /*
      * Computes the product of A, B matrices using "simple" DAC algorithm.
@@ -292,14 +294,14 @@ public class MatrixProduct {
             int[][] P7 = matProd_Strassen(S9, 0, 0,
                     S10, 0, 0, newN);
 
-            // C11 = P5 + P4 - P2 + P6
+            // C11 = (((P5 + P4) - P2) + P6)
             int[][] P5_P4 = Add_Subtract(P5, 0, 0,
                     P4, 0, 0, newN, add);
-            int[][] P2_P6 = Add_Subtract(P2, 0, 0,
+            int[][] P5_4_2 = Add_Subtract(P5_P4, 0, 0,
+                    P2, 0, 0, newN, sub);
+            int[][] C11 = Add_Subtract(P5_4_2, 0, 0,
                     P6, 0, 0, newN, add);
-            int[][] C11 = Add_Subtract(P5_P4, 0, 0,
-                    P2_P6, 0, 0, newN, sub
-            );
+
             // C12 = P1 + P2
             int[][] C12 = Add_Subtract(P1, 0, 0,
                             P2, 0, 0, newN, add
@@ -308,14 +310,13 @@ public class MatrixProduct {
             int[][] C21 = Add_Subtract(P3, 0, 0,
                     P4, 0, 0, newN, add
             );
-            // C22 = P5 + P1 - P3 - P7
+            // C22 = (((P5 + P1) - P3) - P7)
             int[][] P5_P1 = Add_Subtract(P5, 0, 0,
                     P1, 0, 0, newN, add);
-            int[][] P3_P7 = Add_Subtract(P3, 0, 0,
+            int[][] P5_1_3 = Add_Subtract(P5_P1, 0, 0,
+                    P3, 0, 0, newN, sub);
+            int[][] C22 = Add_Subtract(P5_1_3, 0, 0,
                     P7, 0, 0, newN, sub);
-            int[][] C22 = Add_Subtract(P5_P1, 0, 0,
-                    P3_P7, 0, 0, newN, sub
-            );
 
             Merge(C, C11, C12, C21, C22);
         }
@@ -346,7 +347,7 @@ public class MatrixProduct {
                                         int[][] B, int startRowB, int startColB,
                                         int newN, boolean add) {
 
-        int[][] C = new int[newN][newN];]
+        int[][] C = new int[newN][newN];
         
         for (int i = 0; i < newN; i++) {
             for (int j = 0; j < newN; j++) {
