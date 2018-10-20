@@ -142,7 +142,7 @@ public class MatrixProduct {
         // A dim = B dim, so fine just to use aLen to check
         int n = aLen;
         int[][] C;
-        //TODO: Determine actual start rows and cols
+
         int startRowA = 0, startColA = 0, startRowB = 0, startColB = 0;
         C = matProd_DAC(A, startRowA, startColA, B, startRowB, startColB, n);
 
@@ -238,71 +238,78 @@ public class MatrixProduct {
             C[0][0] = A[startRowA][startColA] * B[startRowB][startColB];
         } else {
             int newN = n / 2;
-            //To DO:
-            // Create Actual Add and Subtract methods for Strassen Alg (ADD is for DAC)
-            //
-            // Change the parameters in the methods to the actual matricies and new coordinates
 
-            // S1 = B12 - B22,  S2 = A11 + A12, S3 = A21 + A22, S4 = B21 - B11, S5 = A11 + A22
-            // S6 = B11 + B22,  S7 = A12 - A22, S8 = B21 + B22, S9 = A11 - A21, S10 = B11 + B12
+            // S1 = B12 - B22
             int[][] S1 = Add_Subtract(B, startRowB, startColB + newN,
                     B, startRowB + newN, startColB + newN, newN, sub);
+            // S2 = A11 + A12
             int[][] S2 = Add_Subtract(A, startRowA, startColA,
                     A, startRowA, startColA + newN, newN, add);
+            // S3 = A21 + A22
             int[][] S3 = Add_Subtract(A, startRowA + newN, startColA,
                     A, startRowA + newN, startColA + newN, newN, add);
+            // S4 = B21 - B11
             int[][] S4 = Add_Subtract(B, startRowB + newN, startColB,
                     B, startRowB, startColB, newN, sub);
+            // S5 = A11 + A22
             int[][] S5 = Add_Subtract(A, startRowA, startColA,
                     A, startRowA + newN, startColA + newN, newN, add);
+            // S6 = B11 + B22
             int[][] S6 = Add_Subtract(B, startRowB, startColB,
                     B, startRowB + newN, startColB + newN, newN, add);
+            // S7 = A12 - A22
             int[][] S7 = Add_Subtract(A, startRowA, startColA + newN,
                     A, startRowA + newN, startColA + newN, newN, sub);
+            // S8 = B21 + B22
             int[][] S8 = Add_Subtract(B, startRowB + newN, startColB,
                     B, startRowB + newN, startColB + newN, newN, add);
+            // S9 = A11 - A21
             int[][] S9 = Add_Subtract(A, startRowA, startColA,
                     A, startRowA + newN, startColA, newN, sub);
+            // S10 = B11 + B12
             int[][] S10 = Add_Subtract(B, startRowB, startColB,
                     B, startRowB, startColB + newN, newN, add);
 
-            // P1 = A11 * S1,   P2 = S2 * B22,  P3 = S3 * B11,  P4 = A22 * S4,
-            // P5 = S5 * S6,    P6 = S7 * S8,   P7 = S9 * S10
+            // P1 = A11 * S1
             int[][] P1 = matProd_Strassen(A, startRowA, startColA,
                     S1, 0, 0, newN);
+            // P2 = S2 * B22
             int[][] P2 = matProd_Strassen(S2, 0, 0,
                     B, startRowB + newN, startColB + newN, newN);
+            // P3 = S3 * B11
             int[][] P3 = matProd_Strassen(S3, 0, 0,
                     B, startRowB, startColB, newN);
+            // P4 = A22 * S4
             int[][] P4 = matProd_Strassen(A, startRowA + newN, startColA + newN,
                     S4, 0, 0, newN);
+            // P5 = S5 * S6
             int[][] P5 = matProd_Strassen(S5, 0, 0,
                     S6, 0, 0, newN);
+            // P6 = S7 * S8
             int[][] P6 = matProd_Strassen(S7, 0, 0,
                     S8, 0, 0, newN);
+            // P7 = S9 * S10
             int[][] P7 = matProd_Strassen(S9, 0, 0,
                     S10, 0, 0, newN);
 
-            // C11 = P5 + P4 - P2 + P6, C12 = P1 + P2,  C21 = P3 + P4,  C22 = P5 + P1 - P3 - P7
-//            System.out.println("----------C11----------");
+            // C11 = P5 + P4 - P2 + P6
             int[][] P5_P4 = Add_Subtract(P5, 0, 0,
                     P4, 0, 0, newN, add);
-            int[][] P2_P6 = Add_Subtract(P5, 0, 0,
-                    P4, 0, 0, newN, add);
-
+            int[][] P2_P6 = Add_Subtract(P2, 0, 0,
+                    P6, 0, 0, newN, add);
             int[][] C11 = Add_Subtract(P5_P4, 0, 0,
                     P2_P6, 0, 0, newN, sub
             );
-//            System.out.println("----------C12----------");
+            // C12 = P1 + P2
             int[][] C12 = Add_Subtract(P1, 0, 0,
                             P2, 0, 0, newN, add
             );
-//            System.out.println("----------C21----------");
+            // C21 = P3 + P4
             int[][] C21 = Add_Subtract(P3, 0, 0,
                     P4, 0, 0, newN, add
             );
-//            System.out.println("----------C22----------");
-            int[][] P5_P1 =  Add_Subtract(P5, 0, 0,
+            // C22 = P5 + P1 - P3 - P7
+            int[][] P5_P1 = Add_Subtract(P5, 0, 0,
                     P1, 0, 0, newN, add);
             int[][] P3_P7 = Add_Subtract(P3, 0, 0,
                     P7, 0, 0, newN, sub);
@@ -339,11 +346,8 @@ public class MatrixProduct {
                                         int[][] B, int startRowB, int startColB,
                                         int newN, boolean add) {
 
-        int[][] C = new int[newN][newN];
-        // need to add matricies within the boundaries defined by the parameters
-
-//        System.out.println("startRowA: " + startRowA + ", startColA: " + startColA);
-//        System.out.println("startRowB: " + startRowB + ", startColB: " + startColB);
+        int[][] C = new int[newN][newN];]
+        
         for (int i = 0; i < newN; i++) {
             for (int j = 0; j < newN; j++) {
                 if (add) {
