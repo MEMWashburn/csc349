@@ -2,7 +2,6 @@
  * CSC 349 Project 3
  * Angel de la Torre ardelato@calpoly.edu
  * Megan Washburn mwashbur@calpoly.edu
- *
  */
 
 import java.io.*;
@@ -48,13 +47,42 @@ public class FactoryProblem {
             }
         }
         // Need to add logic for index proper values
-        int n = list[0];
-        int e1 = list[1];
-        int e2 = list[2];
-        int x1 = list[3];
-        int x2 = list[4];
-             
-        for(int i = 5; i < n+5;i++){
-           
-     }
+        int n = list.get(0);
+        int e1 = list.get(1);
+        int e2 = list.get(2);
+        int x1 = list.get(3);
+        int x2 = list.get(4);
+        int[] a1 = new int[n];
+        int[] a2 = new int[n];
+        int[] t1 = new int[n - 1];
+        int[] t2 = new int[n - 1];
+
+        int offset = 5;
+        int a1o = n*0, a2o = n*1, t1o = a2o + 1*(n - 1) + 1, t2o = a2o + 2*(n - 1) + 1;
+        for (int i = 0; i < n; i++) {
+            a1[i] = list.get(i + offset + a1o);
+            a2[i] = list.get(i + offset + a2o);
+            if (i != n - 1) {
+                t1[i] = list.get(i + offset + t1o);
+                t2[i] = list.get(i + offset + t2o);
+            }
+        }
+
+        for (Integer i : a1) {
+            System.out.print(i);
+        }
+        System.out.println();
+        for (Integer i : a2) {
+            System.out.print(i);
+        }
+        System.out.println();
+        for (Integer i : t1) {
+            System.out.print(i);
+        }
+        System.out.println();
+        for (Integer i : t2) {
+            System.out.print(i);
+        }
+        System.out.println();
+    }
 }
