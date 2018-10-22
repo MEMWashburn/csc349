@@ -1,6 +1,10 @@
 /**
  * CSC 349 Project 2 Part 2
+ * 19 October 2018
+ *
  * Angel de la Torre and Megan Washburn
+ * ardelato@calpoly.edu
+ * mwashbur@calpoly.edu
  */
 
 import java.io.*;
