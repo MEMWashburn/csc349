@@ -85,7 +85,8 @@ public class FactoryProblem {
         System.out.println("Fastest time is: " + Math.min(F1[n-1],F2[n-1]) + "\n");
         
         optimalRoute(F1,F2,n);    
-        /*
+       
+       /*
         for (Integer i : F1) {
             System.out.print(i + " ");
         }
@@ -105,7 +106,9 @@ public class FactoryProblem {
         if (aindex == 0) { return e + a[aindex]; }
         return Math.min( (F1[aindex - 1] + a[aindex]), (F2[aindex - 1] + t[tindex] + a[aindex]) );
     }
-
+    
+    // Iterative approach to printing the best route to take
+    // Based on a simple Ternary Operator (min value corresponds to line #)
     private static void optimalRoute(int[] F1, int[] F2,int n){
        System.out.println("The optimal route is:");
        for (int i=0; i < n; i++)
