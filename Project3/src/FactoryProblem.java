@@ -66,6 +66,7 @@ public class FactoryProblem {
             if (i != n - 1) {
                 t1[i] = list.get(i + offset + t1o);
                 t2[i] = list.get(i + offset + t2o);
+
             }
         }
 
@@ -76,7 +77,15 @@ public class FactoryProblem {
             F1[i] = calculateFastest(F1, F2, t2, a1, i - 1, i, e1);
             F2[i] = calculateFastest(F2, F1, t1, a2, i - 1, i, e2);
         }
-
+        // Add exit (x) integers to last station/index
+        F1[n-1] += x1;
+        F2[n-1] += x2;
+        
+        // Print out fastest time
+        System.out.println("Fastest time is: " + Math.min(F1[n-1],F2[n-1]) + "\n");
+        
+        optimalRoute(F1,F2,n);    
+        /*
         for (Integer i : F1) {
             System.out.print(i + " ");
         }
@@ -84,30 +93,23 @@ public class FactoryProblem {
         for (Integer i : F2) {
             System.out.print(i + " ");
         }
-//        System.out.println(F1.toString());
-//        System.out.println(F2.toString());
+        System.out.println();
+        */
+         
 
-//        for (Integer i : a1) {
-//            System.out.print(i);
-//        }
-//        System.out.println();
-//        for (Integer i : a2) {
-//            System.out.print(i);
-//        }
-//        System.out.println();
-//        for (Integer i : t1) {
-//            System.out.print(i);
-//        }
-//        System.out.println();
-//        for (Integer i : t2) {
-//            System.out.print(i);
-//        }
-//        System.out.println();
     }
 
+    // Did the hand calcs, it checks out
     private static int calculateFastest(int[] F1, int[] F2, int[] t, int[] a,
                                         int tindex, int aindex, int e) {
         if (aindex == 0) { return e + a[aindex]; }
         return Math.min( (F1[aindex - 1] + a[aindex]), (F2[aindex - 1] + t[tindex] + a[aindex]) );
     }
+
+    private static void optimalRoute(int[] F1, int[] F2,int n){
+       System.out.println("The optimal route is:");
+       for (int i=0; i < n; i++)
+          System.out.println("station " + (i+1) + ", line " + (F1[i] < F2[i] ? 1 : 2));
+    }
+
 }
