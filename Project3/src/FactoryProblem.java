@@ -78,11 +78,11 @@ public class FactoryProblem {
         }
 
         for (Integer i : F1) {
-            System.out.print(i);
+            System.out.print(i + " ");
         }
         System.out.println();
         for (Integer i : F2) {
-            System.out.print(i);
+            System.out.print(i + " ");
         }
 //        System.out.println(F1.toString());
 //        System.out.println(F2.toString());
