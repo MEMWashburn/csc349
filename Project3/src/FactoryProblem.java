@@ -5,6 +5,7 @@
  */
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,21 +69,45 @@ public class FactoryProblem {
             }
         }
 
-        for (Integer i : a1) {
+        int[] F1 = new int[n];
+        int[] F2 = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            F1[i] = calculateFastest(F1, F2, t2, a1, i - 1, i, e1);
+            F2[i] = calculateFastest(F2, F1, t1, a2, i - 1, i, e2);
+        }
+
+        for (Integer i : F1) {
             System.out.print(i);
         }
         System.out.println();
-        for (Integer i : a2) {
+        for (Integer i : F2) {
             System.out.print(i);
         }
-        System.out.println();
-        for (Integer i : t1) {
-            System.out.print(i);
-        }
-        System.out.println();
-        for (Integer i : t2) {
-            System.out.print(i);
-        }
-        System.out.println();
+//        System.out.println(F1.toString());
+//        System.out.println(F2.toString());
+
+//        for (Integer i : a1) {
+//            System.out.print(i);
+//        }
+//        System.out.println();
+//        for (Integer i : a2) {
+//            System.out.print(i);
+//        }
+//        System.out.println();
+//        for (Integer i : t1) {
+//            System.out.print(i);
+//        }
+//        System.out.println();
+//        for (Integer i : t2) {
+//            System.out.print(i);
+//        }
+//        System.out.println();
+    }
+
+    private static int calculateFastest(int[] F1, int[] F2, int[] t, int[] a,
+                                        int tindex, int aindex, int e) {
+        if (aindex == 0) { return e + a[aindex]; }
+        return Math.min( (F1[aindex - 1] + a[aindex]), (F2[aindex - 1] + t[tindex] + a[aindex]) );
     }
 }
