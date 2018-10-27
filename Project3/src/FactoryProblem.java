@@ -1,16 +1,17 @@
 /**
  * CSC 349 Project 3
+ * 26 October 2018
  * Angel de la Torre ardelato@calpoly.edu
  * Megan Washburn mwashbur@calpoly.edu
  */
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FactoryProblem {
+
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
 
@@ -24,7 +25,7 @@ public class FactoryProblem {
 
         try {
             bf = new BufferedReader(new FileReader(file));
-            String text = null;
+            String text;
 
             while ((text = bf.readLine()) != null) {
                 String[] split = text.split("\\s+");
@@ -58,15 +59,17 @@ public class FactoryProblem {
         int[] t1 = new int[n - 1];
         int[] t2 = new int[n - 1];
 
+        int[] l1 = new int[n];
+        int[] l2 = new int[n];
+
         int offset = 5;
-        int a1o = n*0, a2o = n*1, t1o = a2o + 1*(n - 1) + 1, t2o = a2o + 2*(n - 1) + 1;
+        int a1o = n * 0, a2o = n * 1, t1o = a2o + 1 * (n - 1) + 1, t2o = a2o + 2 * (n - 1) + 1;
         for (int i = 0; i < n; i++) {
             a1[i] = list.get(i + offset + a1o);
             a2[i] = list.get(i + offset + a2o);
             if (i != n - 1) {
                 t1[i] = list.get(i + offset + t1o);
                 t2[i] = list.get(i + offset + t2o);
-
             }
         }
 
@@ -74,17 +77,22 @@ public class FactoryProblem {
         int[] F2 = new int[n];
 
         for (int i = 0; i < n; i++) {
-            F1[i] = calculateFastest(F1, F2, t2, a1, i - 1, i, e1);
-            F2[i] = calculateFastest(F2, F1, t1, a2, i - 1, i, e2);
+            int[] vals1 = calculateFastest(F1, F2, t2, a1, i - 1, i, e1);
+            int[] vals2 = calculateFastest(F2, F1, t1, a2, i - 1, i, e2);
+            F1[i] = vals1[0];
+            l1[i] = vals1[1];
+            F2[i] = vals2[0];
+            l2[i] = vals2[1];
+            System.out.println("l1: " + vals1[1] + ", l2: " + vals2[1]);
         }
         // Add exit (x) integers to last station/index
-        F1[n-1] += x1;
-        F2[n-1] += x2;
-        
+        F1[n - 1] += x1;
+        F2[n - 1] += x2;
+
         // Print out fastest time
-        System.out.println("Fastest time is: " + Math.min(F1[n-1],F2[n-1]) + "\n");
-        
-        optimalRoute(F1,F2,n);    
+        System.out.println("Fastest time is: " + Math.min(F1[n - 1], F2[n - 1]) + "\n");
+
+        optimalRoute(l1, l2, n);
        
        /*
         for (Integer i : F1) {
@@ -96,23 +104,44 @@ public class FactoryProblem {
         }
         System.out.println();
         */
-         
-
     }
 
     // Did the hand calcs, it checks out
-    private static int calculateFastest(int[] F1, int[] F2, int[] t, int[] a,
-                                        int tindex, int aindex, int e) {
-        if (aindex == 0) { return e + a[aindex]; }
-        return Math.min( (F1[aindex - 1] + a[aindex]), (F2[aindex - 1] + t[tindex] + a[aindex]) );
-    }
-    
-    // Iterative approach to printing the best route to take
-    // Based on a simple Ternary Operator (min value corresponds to line #)
-    private static void optimalRoute(int[] F1, int[] F2,int n){
-       System.out.println("The optimal route is:");
-       for (int i=0; i < n; i++)
-          System.out.println("station " + (i+1) + ", line " + (F1[i] < F2[i] ? 1 : 2));
+    private static int[] calculateFastest(int[] F1, int[] F2, int[] t, int[] a,
+                                          int tindex, int aindex, int e) {
+        int[] vals = new int[2];
+        if (aindex == 0) {
+            vals[0] = e + a[aindex];
+            vals[1] = 1;
+            return vals;
+        }
+        // Separated to check which precedent line yielded fastest path
+        int f1 = (F1[aindex - 1] + a[aindex]);
+        int f2 = (F2[aindex - 1] + t[tindex] + a[aindex]);
+        if (f1 > f2) {
+            vals[1] = 1;
+        } else {
+            vals[1] = 2;
+        }
+        vals[0] = Math.min(f1, f2);
+        return vals;
     }
 
+    // Iterative approach to printing the best route to take
+    // Based on a simple Ternary Operator (min value corresponds to line #)
+    private static void optimalRoute(int[] l1, int[] l2, int n) {
+        System.out.println("The optimal route is:");
+        int last = 1, l; // l* = 1
+        for (int i = 0; i < n; i++) {
+            if (last == 1) {
+                l = l1[i];
+                last = 1;
+            } else {
+                l = l2[i];
+                last = 2;
+            }
+            System.out.println("station " + (i + 1) + ", line " + l);
+        }
+        // System.out.println("station " + (i+1) + ", line " + (F1[i] < F2[i] ? 1 : 2));
+    }
 }
