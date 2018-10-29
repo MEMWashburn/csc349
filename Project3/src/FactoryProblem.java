@@ -59,8 +59,8 @@ public class FactoryProblem {
         int[] t1 = new int[n - 1];
         int[] t2 = new int[n - 1];
 
-        int[] l1 = new int[n];
-        int[] l2 = new int[n];
+        int[] l1 = new int[n-1];
+        int[] l2 = new int[n-1];
 
         int offset = 5;
         int a1o = n * 0, a2o = n * 1, t1o = a2o + 1 * (n - 1) + 1, t2o = a2o + 2 * (n - 1) + 1;
@@ -77,12 +77,14 @@ public class FactoryProblem {
         int[] F2 = new int[n];
 
         for (int i = 0; i < n; i++) {
-            int[] vals1 = calculateFastest(F1, F2, t2, a1, i - 1, i, e1);
-            int[] vals2 = calculateFastest(F2, F1, t1, a2, i - 1, i, e2);
+            int[] vals1 = calculateFastest(F1, F2, t2, a1, i - 1, i, e1, 1);
+            int[] vals2 = calculateFastest(F2, F1, t1, a2, i - 1, i, e2, 2);
             F1[i] = vals1[0];
-            l1[i] = vals1[1];
             F2[i] = vals2[0];
-            l2[i] = vals2[1];
+            if (i < n-1) {
+                l1[i] = vals1[1];
+                l2[i] = vals2[1];
+            }
             System.out.println("l1: " + vals1[1] + ", l2: " + vals2[1]);
         }
         // Add exit (x) integers to last station/index
@@ -108,7 +110,7 @@ public class FactoryProblem {
 
     // Did the hand calcs, it checks out
     private static int[] calculateFastest(int[] F1, int[] F2, int[] t, int[] a,
-                                          int tindex, int aindex, int e) {
+                                          int tindex, int aindex, int e, int line) {
         int[] vals = new int[2];
         if (aindex == 0) {
             vals[0] = e + a[aindex];
@@ -119,9 +121,11 @@ public class FactoryProblem {
         int f1 = (F1[aindex - 1] + a[aindex]);
         int f2 = (F2[aindex - 1] + t[tindex] + a[aindex]);
         if (f1 > f2) {
-            vals[1] = 1;
+            if (line == 1) { vals[1] = 1; }
+            if (line == 2) { vals[1] = 2; }
         } else {
-            vals[1] = 2;
+            if (line == 1) { vals[1] = 2; }
+            if (line == 2) { vals[1] = 1; }
         }
         vals[0] = Math.min(f1, f2);
         return vals;
@@ -130,6 +134,10 @@ public class FactoryProblem {
     // Iterative approach to printing the best route to take
     // Based on a simple Ternary Operator (min value corresponds to line #)
     private static void optimalRoute(int[] l1, int[] l2, int n) {
+        System.out.println("l values:");
+        for (int i = 0; i < l1.length; i++) {
+            System.out.println((i + 2) + ":  l1: " + l1[i] + ", l2: " + l2[i]);
+        }
         System.out.println("The optimal route is:");
         int last = 1, l; // l* = 1
         for (int i = 0; i < n; i++) {
@@ -142,6 +150,6 @@ public class FactoryProblem {
             }
             System.out.println("station " + (i + 1) + ", line " + l);
         }
-        // System.out.println("station " + (i+1) + ", line " + (F1[i] < F2[i] ? 1 : 2));
+//         System.out.println("station " + (i+1) + ", line " + (F1[i] < F2[i] ? 1 : 2));
     }
 }
