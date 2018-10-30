@@ -75,37 +75,34 @@ public class FactoryProblem {
 
         int[] F1 = new int[n];
         int[] F2 = new int[n];
-
+        int fpt;
+        int lpt;
+        
         for (int i = 0; i < n; i++) {
             int[] vals1 = calculateFastest(F1, F2, t2, a1, i - 1, i, e1, 1);
             int[] vals2 = calculateFastest(F2, F1, t1, a2, i - 1, i, e2, 2);
             F1[i] = vals1[0];
             F2[i] = vals2[0];
-            if (i < n-1) {
-                l1[i] = vals1[1];
-                l2[i] = vals2[1];
+            // l[]s are a size of 5 or n-1, and we don't care about
+            // when i = 0
+            if (i != 0) {
+                l1[i-1] = vals1[1];
+                l2[i-1] = vals2[1];
             }
-            System.out.println("l1: " + vals1[1] + ", l2: " + vals2[1]);
         }
-        // Add exit (x) integers to last station/index
-        F1[n - 1] += x1;
-        F2[n - 1] += x2;
+        // Added the l pointer like in the example
+        // l* wil hold the last line from where to best exit from
+        lpt = F1[n - 1] + x1 < F2[n - 1] + x2 ? 1:2;
+        
+        // Added the f pointer like in the example
+        // f* will hold the min frim the last stations + exit values
+        fpt = Math.min(F1[n - 1] + x1,F2[n - 1] + x2);
 
         // Print out fastest time
-        System.out.println("Fastest time is: " + Math.min(F1[n - 1], F2[n - 1]) + "\n");
+        System.out.println("Fastest time is: " + fpt + "\n");
 
-        optimalRoute(l1, l2, n);
+        optimalRoute(lpt,l1, l2);
        
-       /*
-        for (Integer i : F1) {
-            System.out.print(i + " ");
-        }
-        System.out.println();
-        for (Integer i : F2) {
-            System.out.print(i + " ");
-        }
-        System.out.println();
-        */
     }
 
     // Did the hand calcs, it checks out
@@ -114,13 +111,14 @@ public class FactoryProblem {
         int[] vals = new int[2];
         if (aindex == 0) {
             vals[0] = e + a[aindex];
-            vals[1] = 1;
+            vals[1] = (line == 1? 1:2);
             return vals;
         }
         // Separated to check which precedent line yielded fastest path
         int f1 = (F1[aindex - 1] + a[aindex]);
         int f2 = (F2[aindex - 1] + t[tindex] + a[aindex]);
-        if (f1 > f2) {
+
+        if (f1 < f2 ) {
             if (line == 1) { vals[1] = 1; }
             if (line == 2) { vals[1] = 2; }
         } else {
@@ -132,24 +130,33 @@ public class FactoryProblem {
     }
 
     // Iterative approach to printing the best route to take
-    // Based on a simple Ternary Operator (min value corresponds to line #)
-    private static void optimalRoute(int[] l1, int[] l2, int n) {
-        System.out.println("l values:");
+    private static void optimalRoute(int lpt, int[] l1, int[] l2) {
+        int l[] = new int[l1.length];
+        int i; 
+        /*System.out.println("l values:");
         for (int i = 0; i < l1.length; i++) {
             System.out.println((i + 2) + ":  l1: " + l1[i] + ", l2: " + l2[i]);
-        }
+        }*/
+
         System.out.println("The optimal route is:");
-        int last = 1, l; // l* = 1
-        for (int i = 0; i < n; i++) {
-            if (last == 1) {
-                l = l1[i];
-                last = 1;
+        
+        int currentLine = lpt;
+        
+        // Have to work our way backwards like the in example
+        // Save the values so we can then iterate the print properly
+        for (i = l1.length-1; i >= 0; i--) {
+            if (currentLine == 1) {
+                currentLine = l1[i];
             } else {
-                l = l2[i];
-                last = 2;
+                currentLine = l2[i];
+
             }
-            System.out.println("station " + (i + 1) + ", line " + l);
+            l[i] = currentLine;
         }
-//         System.out.println("station " + (i+1) + ", line " + (F1[i] < F2[i] ? 1 : 2));
+        
+        for(i = 0; i < l.length; i++){
+            System.out.println("station " + (i + 1) + ", line " + l[i]);
+        }
+        System.out.println("station " + (i+1) + ", line " + lpt);
     }
 }
