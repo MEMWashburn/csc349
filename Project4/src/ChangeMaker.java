@@ -54,24 +54,38 @@ public class ChangeMaker {
         C[0] = 0;
         A[0] = 0;
 
-        int min = d.length;
-        int index = 0; 
+        int minIndex = d.length;
+        
         for(int j=1; j <= n;j++){
-           min = d.length;
+           minIndex = d.length;
+           int minCount = j;
+           int remainder = j;
+
            for(int i = 0; i < d.length;i++){
               if( (j-d[i]) >= 0){
-                 if(min > i){
-                    min = i;
-                    index = j-d[i];
-                    A[j] = i;
-                 }
+
+                  if(C[j-d[i]] > 0){
+                     remainder = j-d[i];
+                     if( minCount > C[j-d[i]] + C[remainder]){
+                        minCount = C[j-d[i]] + C[remainder];
+                        minIndex = i;
+                     }
+                  }
+                  else{
+                     if(minCount > C[j-d[i]]){
+                        minCount = C[j-d[i]];
+                        minIndex = i;
+                     }
+                  }
               }
            }
-
-           C[j] = 1 + C[index];
+           A[j] = minIndex;   
+           C[j] = minCount;
        }
-       //System.out.println(Arrays.toString(C));
+       System.out.println(Arrays.toString(C));
        //System.out.println(Arrays.toString(A));
+       
+       int index;
 
        while( n > 0){
           index = A[n];
@@ -85,11 +99,16 @@ public class ChangeMaker {
     public static int[] change_greedy(int n, int[] d){
          int[] B = new int[d.length];
          
+         int remaining = n;
          int i = 0;
-         while(n >= 0 && i < d.length){
-            if( (n-d[i]) >= 0){
-               B[i] += 1;
-               n = n - d[i];
+         while(remaining >= 0 && i < d.length){
+            if( (remaining-d[i]) >= 0){
+               int count = 1;
+               while( (remaining - (d[i]*count) >=0)){
+                  count++;
+                  B[i] += 1;   
+               }
+               remaining = remaining - d[i]*(count-1);
             }
             else {
                i++;
