@@ -6,7 +6,7 @@
  */
 
 import java.util.*;
-import java.lang.Integer;
+import java.lang.*;
 
 public class DiGraph {
    static LinkedList<Integer>[] arr; 
@@ -28,6 +28,7 @@ public class DiGraph {
    //    The edge should not be added if it already exists, need to check before add
    //    Vertix-numbers are given in natural numbering (starting with 1) so you
    //    should "turn" them to Java-Indexing to reflext correct connection.
+   // Returns a boolean as a way to provide feedback to the user
    public static boolean addEdge(int from, int to){
       Integer newTo = new Integer(to);
       if( !arr[from - 1].contains(newTo)){
@@ -42,6 +43,7 @@ public class DiGraph {
    // Notes:
    //    Nothing is done if the edge doesn't exist
    //    Need to turn the ints from natural numbering into Java-Indexing
+   // Returns a boolean as a way to provide feedback to the user
    public static boolean deleteEdge(int from, int to){
       Integer newTo = new Integer(to);
       if( arr[from - 1].contains(newTo)){
@@ -82,7 +84,7 @@ public class DiGraph {
          // May have to do it as .toArray(new Integer[arr[alen].size()]) 
          LinkedList<Integer> edges = arr[i];
 
-         System.out.print( (i+1) + " is connected to: ");
+         System.out.print("   " + (i+1) + " is connected to: ");
          for( int j = 0; j < edges.size(); j++){
             if( j == 0)
                System.out.print(edges.get(j));
@@ -94,4 +96,77 @@ public class DiGraph {
       }
       System.out.println();
    }
+
+   // Returns an array of integers representing the indegrees of all vertices in
+   // the graph:
+   //    The i-th integer in the resulting array is the indegree of the i-th
+   //    vertex 
+   private Integer[] indegrees(){
+      Integer[] inD = new Integer[arr.length];
+      
+      Arrays.fill(inD,0);
+      for(int i = 0; i < arr.length; i++){
+         for(int j = 0; j < arr[i].size(); j++){
+            Integer indexValue = arr[i].get(j);
+            inD[indexValue - 1]++;
+         }
+      }
+
+      // Prints out the array of indegrees
+      for(int i = 0; i < inD.length; i++){
+         System.out.print(inD[i] + " ");
+      }
+      System.out.println();
+      
+
+      return inD;
+   }
+
+   // Returns an array containing the list of topologically sorted vertices
+   //    (values in the array should represent natural vertex-numbers)
+   // Note:
+   //    If the graph is cyclic, throw an IllegalArgumentException exception
+   public Integer[] topSort() throws IllegalArgumentException {
+      Integer[] in = indegrees();
+      
+      // Will hold the sorted vertices
+      Integer[] sortedV = new Integer[arr.length];
+
+      Queue<Integer> q = new LinkedList<Integer>();
+      
+      int i;
+      // Check the indegree array for all the vertices with 0 indegrees
+      for(i = 0; i < arr.length; i++){
+         if( in[i] == 0)
+            q.add(i+1);
+      }
+      
+      // Check if the graph is cyclic
+      //    i.e. all vertices have an indegree and so nothing was added to the
+      //    queue
+      if( q.size() == 0)
+         throw new IllegalArgumentException("Cyclic Graph");
+
+      i = 0;
+      
+      while(q.size() != 0){
+         
+         // System.out.println(q);
+
+         // q is in java indexing
+         Integer index = q.remove();
+         // sortedV holds the values in a natural Index
+         sortedV[i] = index;
+         i++;
+         
+         // Decrease the indegrees
+         for(int j = 0; j < arr[index-1].size(); j++){
+            Integer v = arr[index-1].get(j);
+            in[v-1]--;
+            if(in[v-1] == 0)
+               q.add(v);
+         }
+      }
+      return sortedV;
+   }  
 }   

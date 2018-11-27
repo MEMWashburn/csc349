@@ -32,12 +32,13 @@ public class DiGraphTest {
       //    natural, starting at 1
       
       String menu = "Choose one of the following operations:\n"
-         + "-add edge (enter a)\n"
-         + "-delete edge (enter d)\n"
-         + "-edge count (enter e)\n"
-         + "-vertex count (enter v)\n"
-         + "-print graph (enter p)\n"
-         + "-Quit (enter q)\n";
+         + "   -add edge (enter a)\n"
+         + "   -delete edge (enter d)\n"
+         + "   -edge count (enter e)\n"
+         + "   -vertex count (enter v)\n"
+         + "   -print graph (enter p)\n"
+         + "   -topological sort (enter t)\n"
+         + "   -Quit (enter q)\n";
                
       System.out.print(menu + "\n> ");
 
@@ -61,6 +62,9 @@ public class DiGraphTest {
             case 'p':
                System.out.println("The graph is the following: ");
                graph.print();
+               break;
+            case 't':
+               helperTSort(graph);
                break;
             default:
                System.out.println("Invalid menu choice");
@@ -96,5 +100,22 @@ public class DiGraphTest {
       else {
          System.out.println("Edge does not already exist in the graph\n");
       }
+   }
+
+   // Helper Method to carry out the functionality for the topological sort
+   // command
+   private static void helperTSort(DiGraph graph){
+      Integer[] sortedList = graph.topSort();
+      
+      System.out.print("The topologically sorted sequence of vertices: ");
+      
+      for(int i = 0; i < sortedList.length; i++){
+         if( i == 0)
+            System.out.print(sortedList[i]);
+         else{
+            System.out.print(", " + sortedList[i]);
+         }
+      }
+      System.out.println();
    }
 }
