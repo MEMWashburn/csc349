@@ -60,7 +60,7 @@ public class DiGraph {
       int numEdges = 0;
       
       for(int i = 0; i < arr.length; i++){
-         numEdges += arr[i].size();
+         numEdges += (arr[i].size() - 1);
       }
       return numEdges;
    }
