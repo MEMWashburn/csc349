@@ -44,19 +44,15 @@ public class DiGraphTest {
 
       // Read a line
       String option = reader.nextLine();
-      char o = ' '; 
-
-      while(o != 'q') { 
-         if (option.length() == 0){
-            while(reader.hasNext() && option.length() == 0)
-               option = reader.nextLine();
-         }
-        
-         if(option.length() > 2)
+      System.out.println("Option size is: " + option.length());
+      option = reader.nextLine();
+      
+      System.out.println("Option is: " + option);
+      while(option.equals("q")) {
+         char o = option.charAt(0);
+         if(option.length() > 1)
             System.out.println("Invalid menu choice");
-         
          else{
-            o = option.charAt(0);
             switch (o){
                case 'a':
                   helperAdd(graph, reader);
@@ -77,17 +73,13 @@ public class DiGraphTest {
                case 't':
                   helperTSort(graph);
                   break;
-               case 'q':
-                  break;
                default:
                   System.out.println("Invalid menu choice");
-            }  
+            }
          }
          System.out.print("> "); 
-         if(reader.hasNext())
-            option = reader.nextLine();
+         option = reader.nextLine();
       }
-      System.out.println("Good bye");
    }
 
    // Helper Method to carry out the functionality for the add command
@@ -121,21 +113,17 @@ public class DiGraphTest {
    // Helper Method to carry out the functionality for the topological sort
    // command
    private static void helperTSort(DiGraph graph){
-      Integer[] sortedList;
-      try {
-         sortedList = graph.topSort();
-         System.out.print("The topologically sorted sequence of vertices: ");
-         
-         for(int i = 0; i < sortedList.length; i++){
-            if( i == 0)
-               System.out.print(sortedList[i]);
-            else{
-               System.out.print(", " + sortedList[i]);
-            }
+      Integer[] sortedList = graph.topSort();
+      
+      System.out.print("The topologically sorted sequence of vertices: ");
+      
+      for(int i = 0; i < sortedList.length; i++){
+         if( i == 0)
+            System.out.print(sortedList[i]);
+         else{
+            System.out.print(", " + sortedList[i]);
          }
-         System.out.println();
-      } catch (IllegalArgumentException e) {
-         System.out.println(e);
       }
+      System.out.println();
    }
 }

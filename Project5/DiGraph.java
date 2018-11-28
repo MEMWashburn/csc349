@@ -60,7 +60,7 @@ public class DiGraph {
       int numEdges = 0;
       
       for(int i = 0; i < arr.length; i++){
-         numEdges += (arr[i].size() - 1);
+         numEdges += (arr[i].size());
       }
       return numEdges;
    }
@@ -113,10 +113,10 @@ public class DiGraph {
       }
 
       // Prints out the array of indegrees
-      for(int i = 0; i < inD.length; i++){
-         System.out.print(inD[i] + " ");
-      }
-      System.out.println();
+      //for(int i = 0; i < inD.length; i++){
+      //   System.out.print(inD[i] + " ");
+      //}
+      //System.out.println();
       
 
       return inD;
@@ -132,7 +132,7 @@ public class DiGraph {
       // Will hold the sorted vertices
       Integer[] sortedV = new Integer[arr.length];
 
-      Queue<Integer> q = new LinkedList<Integer>();
+      LinkedList<Integer> q = new LinkedList<Integer>();
       
       int i;
       // Check the indegree array for all the vertices with 0 indegrees
