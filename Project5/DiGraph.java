@@ -20,6 +20,11 @@ public class DiGraph {
         int dist;     // length of the path
         int parent;  // parent of a vertex
     }
+
+    private class TreeNode{
+        int vertexNum; // holds the vertex number 
+        LinkedList<TreeNode> children; // Represents the vertex's children
+    }
     
     // Returns an array of VertexInfo type objects containing data that can be used
     // to construct shortest paths from s vertex to all verties in the graph that are
@@ -126,6 +131,29 @@ public class DiGraph {
         else System.out.println("There is no path");
     }
 
+    // Will return the root of the breadth-first-tree for the given s vertex
+    // The tree can be built from the data returned by the array in BFS method
+    // Need to go through all the parent values in the array and add them to
+    // the parent's list of children.
+    private TreeNode buildTree(int s){
+         VertexInfo[] vi = BFS(s-1);
+         TreeNode bFirstTree = new TreeNode();
+
+         // Initialize Root Node
+         bFirstTree.vertexNum = s;
+         bFirstTree.children = new LinkedList<TreeNode>();
+         
+
+    }
+
+    // Prints the breadth-first-tree for the given s vertex
+    // Call the buildTree to get the root node and then print the tree
+    // Format:
+    //   Each level of the tree must be indented 4 spaces to the right from the
+    //   previous level
+    public void printTree(int s){
+
+    }
 
     /**
      * Part I and II
