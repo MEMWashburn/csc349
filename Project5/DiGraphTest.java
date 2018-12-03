@@ -47,6 +47,9 @@ public class DiGraphTest {
                 + "   -vertex count (enter v)\n"
                 + "   -print graph (enter p)\n"
                 + "   -topological sort (enter t)\n"
+                + "   -is there a path (enter i)\n"
+                + "   -length of the path (enter l)\n"
+                + "   -shortest path (enter s)\n"
                 + "   -Quit (enter q)\n";
 
         System.out.print(menu + "\n> ");
@@ -89,16 +92,13 @@ public class DiGraphTest {
                     case 'q':
                         break;
                     case 'i':
-                        System.out.println("Given two vertices, find if there is a path from the first to the second.");
-                        // helperIsPath
+                        helperBoolPath(graph,reader);
                         break;
                     case 'l':
-                        System.out.println("Given two vertices, find length of the shortest path from first to second.");
-                        // helperPathLength
+                        helperLengthPath(graph,reader);
                         break;
                     case 's':
-                        System.out.println("Given two vertices, print shortest path from first to second, if exists.");
-                        // helperShortestPath
+                        helperPrintPath(graph,reader);
                         break;
                     default:
                         System.out.println("Invalid menu choice");
@@ -158,5 +158,41 @@ public class DiGraphTest {
         } catch (IllegalArgumentException e) {
             System.out.println(e);
         }
+    }
+
+    // Helper Method to carry out the functionality for isTherePath command
+    private static void helperBoolPath(DiGraph graph, Scanner reader){
+      System.out.println("Enter the 'from' and 'to' vertices to see if there is a path: ");
+
+      int from = reader.nextInt();
+      int to = reader.nextInt();
+
+      if(graph.isTherePath(from,to))
+         System.out.println("There is a path from vertex " + from + " to the vertex " + to);
+      else {
+         System.out.println("There is no path from vertex " + from + " to the vertex " + to);
+      }
+      System.out.println();
+
+    }
+
+    private static void helperLengthPath(DiGraph graph, Scanner reader){
+      System.out.println("Enter the 'from' and 'to' vertices to see the length of the path: ");
+
+      int from = reader.nextInt();
+      int to = reader.nextInt();
+      
+      System.out.println("The length for the path from vertex " + from + " to the vertex " + to + " is " + graph.lengthOfPath(from,to));
+      System.out.println();
+    }
+    
+    private static void helperPrintPath(DiGraph graph, Scanner reader){
+      System.out.println("Enter the 'from' and 'to' vertices to see if there is a path: ");
+
+      int from = reader.nextInt();
+      int to = reader.nextInt();
+
+      graph.printPath(from,to);
+      System.out.println();
     }
 }

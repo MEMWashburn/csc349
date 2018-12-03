@@ -16,20 +16,21 @@ public class DiGraph {
     /**
      * Part III and IV
      */
-    private class VertexInfo() {
+    private class VertexInfo{
         int dist;     // length of the path
         int parent;  // parent of a vertex
     }
-
+    
     // Returns an array of VertexInfo type objects containing data that can be used
     // to construct shortest paths from s vertex to all verties in the graph that are
     // reachable from vertex s. NOTE: private so we can decide how the s vertex is given
     // Use addLast and removeFirst for our regular (non-priority) queue of LinkedList objects
     private VertexInfo[] BFS(int s) {
         int length = arr.length;
-        VertexInfo[] vi = new VertexInfo()[arr.length];
-         
+        VertexInfo[] vi = new VertexInfo[arr.length];
+        
         for(int i = 0; i < length;i++){
+           vi[i] = new VertexInfo();
            vi[i].dist = -1;
            vi[i].parent = -1;
         }
@@ -40,13 +41,14 @@ public class DiGraph {
         q.add(s);
         
         int u;
+
         while(q.size() != 0){
             u = q.removeFirst();
 
             LinkedList<Integer> edge = arr[u];
 
             for(int j = 0; j < edge.size(); j++){
-               int v = edge[j];
+               int v = edge.get(j) - 1;
                if(vi[v].dist == -1){
                   vi[v].dist = vi[u].dist + 1;
                   vi[v].parent = u;
@@ -55,6 +57,12 @@ public class DiGraph {
             }
         }
 
+        //System.out.println("Start vertex: " + s);
+        
+        //for(int i = 0; i < length; i++){
+        //   System.out.println( (i+1) + ": " + vi[i].dist + " " + (vi[i].parent +1));
+        // }
+
         return vi;
     }
 
@@ -62,12 +70,15 @@ public class DiGraph {
     // Using the VertexInfo array, work your way backwards (using the parent
     // vertex) until you hit the start vertex (i.e. false) or hit the from
     // vertex (i.e. true);
-    public bool isTherePath(int from, int to) {
+    public boolean isTherePath(int from, int to) {
         VertexInfo[] vi = BFS(from-1);
         
+        if(vi[to-1].parent == (from -1))
+           return true;
+
         int currVer = vi[to-1].parent;
         while(currVer != -1){
-           if(currVer == from)
+           if(currVer == (from-1))
               return true;
            currVer = vi[currVer].parent;
         }
@@ -81,17 +92,13 @@ public class DiGraph {
     public int lengthOfPath(int from, int to) {
         VertexInfo[] vi = BFS(from-1);
 
-        if(isTherePath(from,to) == false)
-           return 0;
-
-        int sum = vi[to-1].dist;
-        int currVer = vi[to-1].parent;
-        
-        while(currVer != -1){
-           currVer = vi[currVer].parent;
-           sum += vi[currVer].dist;
+        if(isTherePath(from,to) == false){
+           System.out.println("No Path found");
+           return -1;
         }
-        return sum;
+        // The distance to the vertex should already be calculated and inserted
+        // in BFS array
+        return vi[to-1].dist;
     }
 
     // Arranges the output of the shortest distance of the to vertext from the from vertex
@@ -113,9 +120,7 @@ public class DiGraph {
                
                currVer = vi[currVer].parent;
             }
-
-            path.insert(0,currVer+1);
-
+            path.delete(0,2);
             System.out.println(path.toString());
         }
         else System.out.println("There is no path");
