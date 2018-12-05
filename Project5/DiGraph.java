@@ -137,6 +137,10 @@ public class DiGraph {
     // the parent's list of children.
     private TreeNode buildTree(int s){
          VertexInfo[] vi = BFS(s-1);
+         
+         //for(int i = 0;i < vi.length;i++){
+         //   System.out.println((i+1) + ": " + (vi[i].dist+1) + " " + (vi[i].parent+1));   
+         //}
          TreeNode[] bftArr = new TreeNode[vi.length];
          
          //initialize TreeNodes
