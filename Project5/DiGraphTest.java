@@ -50,6 +50,7 @@ public class DiGraphTest {
                 + "   -is there a path (enter i)\n"
                 + "   -length of the path (enter l)\n"
                 + "   -shortest path (enter s)\n"
+                + "   -print breadth-first-tree (enter b)\n"
                 + "   -Quit (enter q)\n";
 
         System.out.print(menu + "\n> ");
@@ -99,6 +100,9 @@ public class DiGraphTest {
                         break;
                     case 's':
                         helperPrintPath(graph,reader);
+                        break;
+                    case 'b':
+                        helperPrintBFT(graph,reader);
                         break;
                     default:
                         System.out.println("Invalid menu choice");
@@ -195,4 +199,13 @@ public class DiGraphTest {
       graph.printPath(from,to);
       System.out.println();
     }
+
+    private static void helperPrintBFT(DiGraph graph, Scanner reader){
+      System.out.println("Enter the source vertex: ");
+
+      int s = reader.nextInt();
+
+      graph.printTree(s);
+    }
+
 }

@@ -137,13 +137,25 @@ public class DiGraph {
     // the parent's list of children.
     private TreeNode buildTree(int s){
          VertexInfo[] vi = BFS(s-1);
-         TreeNode bFirstTree = new TreeNode();
-
-         // Initialize Root Node
-         bFirstTree.vertexNum = s;
-         bFirstTree.children = new LinkedList<TreeNode>();
+         TreeNode[] bftArr = new TreeNode[vi.length];
          
+         //initialize TreeNodes
+         for(int i=0; i < vi.length; i++){
+            bftArr[i] = new TreeNode();
+            bftArr[i].vertexNum = i+1;
+            bftArr[i].children = new LinkedList<TreeNode>();
+         }
+         int root = 0;
 
+         for(int i = 0; i < vi.length; i++){
+            int pIndex = vi[i].parent;
+            if( pIndex != -1){
+               bftArr[pIndex].children.addFirst(bftArr[i]);
+            }
+            else if (vi[i].dist == 0)
+               root = i;
+         }
+         return bftArr[root];
     }
 
     // Prints the breadth-first-tree for the given s vertex
@@ -152,9 +164,28 @@ public class DiGraph {
     //   Each level of the tree must be indented 4 spaces to the right from the
     //   previous level
     public void printTree(int s){
-
+         TreeNode bft = buildTree(s);
+         
+         printTreeRecur(bft, 0);
     }
-
+    
+    private void printTreeRecur(TreeNode bft, int level){
+         int index = 0;
+         String tree = new String(new char[level*5]).replace("\0"," ");
+         
+         //System.out.println("Current vertex is: " + bft.vertexNum);
+         if(bft.children.size() == 0)
+         {
+            System.out.println(tree + bft.vertexNum);
+            return;
+         }
+         while(index < bft.children.size() && bft.children.get(index) != null){
+            if(index == 0)
+               System.out.println(tree + bft.vertexNum);
+            printTreeRecur(bft.children.get(index),level + 1);
+            index++;
+         }
+    }
     /**
      * Part I and II
      */
